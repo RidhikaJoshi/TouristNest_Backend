@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.use(
   cors({
-    origin: "https://touristnest-backend-1.onrender.com",
+    origin: "*",
     credentials: true,
   })
 ); // this method is used to enable CORS with middleware options
