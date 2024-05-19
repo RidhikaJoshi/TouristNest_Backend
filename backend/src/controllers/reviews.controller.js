@@ -43,6 +43,7 @@ const addReviews = asyncHandler(async (req, res) => {
     rating,
     hotel: hotelId,
     user: req.user._id,
+    username: req.user.fullName,
   });
   if (!newReview) {
     throw new ApiError(400, "Review not created");
