@@ -173,6 +173,17 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 const changeFullnamePhoneNumber = asyncHandler(async (req, res) => {
+  if (req.user._id == "664aead54811d7a2e58f1435") {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          "You are not allowed to change the details of this user"
+        )
+      );
+  }
   const { fullName, phone } = req.body;
   if (!fullName && !phone) {
     throw new ApiError(400, "FullName or phone Number is required");
@@ -213,6 +224,17 @@ const changeFullnamePhoneNumber = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
+  if (req.user._id == "664aead54811d7a2e58f1435") {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          "You are not allowed to change the details of this user"
+        )
+      );
+  }
   const { currentPassword, newPassword } = req.body;
   if (currentPassword === "" || newPassword === "") {
     throw new ApiError(400, "All fields are required");
@@ -239,6 +261,17 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const changeProfilePicture = asyncHandler(async (req, res) => {
+  if (req.user._id == "664aead54811d7a2e58f1435") {
+    return res
+      .status(400)
+      .json(
+        new ApiResponse(
+          400,
+          {},
+          "You are not allowed to change the details of this user"
+        )
+      );
+  }
   const profilePicture = req.file?.path;
   if (!profilePicture) {
     throw new ApiError(400, "Profile Picture is required");
