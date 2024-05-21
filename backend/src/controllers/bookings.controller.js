@@ -33,6 +33,7 @@ const createNewBooking = asyncHandler(async (req, res) => {
   }
   const price = hotel.price;
   const hotelName = hotel.name;
+  const hotelPicture = hotel.picture;
   const numberOfNights = Math.ceil(
     (checkOut - checkIn) / (1000 * 60 * 60 * 24)
   );
@@ -42,6 +43,7 @@ const createNewBooking = asyncHandler(async (req, res) => {
   const newBooking = await Booking.create({
     hotel: hotelId,
     hotelName,
+    hotelPicture,
     user: req.user._id,
     checkIn,
     checkOut,
