@@ -95,10 +95,10 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
   if (!isValidObjectId(hotelId)) {
     throw new ApiError(400, "Invalid hotel ID");
   }
-  const { name, describtion, tags, price, country, state, location } = req.body;
+  const { name, description, tags, price, country, state, location } = req.body;
   if (
     !name &&
-    !describtion &&
+    !description &&
     !tags &&
     !price &&
     !country &&
@@ -113,7 +113,7 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
     {
       $set: {
         name: name ? name : hotel.name,
-        describtion: describtion ? describtion : hotel.describtion,
+        description: description ? description : hotel.description,
         tags: tags ? tags : hotel.tags,
         price: price ? price : hotel.price,
         country: country ? country : hotel.country,
