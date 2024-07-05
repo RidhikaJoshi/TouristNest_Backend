@@ -6,7 +6,7 @@ import { Hotel } from "../models/hotels.model.js";
 import { isValidObjectId } from "mongoose";
 
 const getAllHotels = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 6 } = req.query;
   const skipper = (page - 1) * limit;
 
   const hotels = await Hotel.find({}).skip(skipper).limit(limit);
