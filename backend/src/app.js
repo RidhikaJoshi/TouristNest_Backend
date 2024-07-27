@@ -8,7 +8,7 @@ app.use(
     origin: "*",
     credentials: true,
   })
-); // this method is used to enable CORS with middleware options
+); // this method is used to enable CORS with middleware options 
 app.use(
   express.json({
     limit: "16kb",
@@ -37,4 +37,5 @@ app.use("/api/v1/hotels", hotelRouter); // this method is used to mount the spec
 
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/bookings", bookingRouter);
+
 export default app;

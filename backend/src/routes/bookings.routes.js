@@ -6,6 +6,7 @@ import {
   deleteBookingById,
   updateBookingById,
   getAllBookings,
+  createCheckoutSession
 } from "../controllers/bookings.controller.js";
 
 const router = Router(); // this method is used to create a new router object
@@ -18,4 +19,7 @@ router
   .get(verifyJWT, getBookingById)
   .patch(verifyJWT, updateBookingById)
   .delete(verifyJWT, deleteBookingById); // this method is used to create a new route that will accept the GET request at the /booking/:bookingId endpoint
+
+router.route("/:bookingId/payment/create-checkout-session").post(verifyJWT, createCheckoutSession); // this method is used to create a new route that will accept the POST request at the /booking/:bookingId/payment/create-checkout-session endpoint
+
 export default router; // this method is used to export the router object

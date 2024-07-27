@@ -4,6 +4,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Hotel } from "../models/hotels.model.js";
 import { Booking } from "../models/bookings.model.js";
 import { isValidObjectId } from "mongoose";
+import Stripe from "stripe";
+const stripe = new Stripe("sk_test_51PIlhJSIY5SaXJgREOlmCuX9KuxvEkhkWC5OmEPzilY79UlftnvYIj8idmYCGETqUqy9JcBuL1bszThoBqwM4gSy00wtFqV1Ql");
 
 const createNewBooking = asyncHandler(async (req, res) => {
   const { hotelId } = req.params;
@@ -155,10 +157,73 @@ const deleteBookingById = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, {}, "Booking deleted"));
 });
 
+const createCheckoutSession = asyncHandler(async (req, res) => {
+  try {
+    const { booking,customerName, customerEmail} = req.body;
+    
+    if (!booking) {
+      return res.status(400).json({ error: "Booking details are required" });
+    }
+
+    if (!customerName || !customerEmail ) {
+      return res.status(400).json({ error: "Customer details are required" });
+    }
+
+    // Debug logging to verify booking data
+    console.log("Received booking data:", booking);
+
+    // Verify booking fields
+    if (!booking.totalAmount || !booking.NumberOfRooms) {
+      return res.status(400).json({ error: "Total amount and number of rooms are required" });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'inr',
+            product_data: {
+              name: 'Booking at ' + booking.hotelName,
+              images: [booking.hotelPicture],
+            },
+            unit_amount: booking.totalAmount * 100,
+          },
+          quantity: booking.NumberOfRooms,
+        },
+      ],
+      mode: 'payment',
+      success_url: `https://touristnest.onrender.com`,
+      cancel_url: `https://touristnest.onrender.com`,
+      customer_email: customerEmail,
+      billing_address_collection: 'required',
+    });
+    // Debug logging to verify session creation
+    console.log("Stripe session created:", session);
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+
+    // Specific Stripe error handling
+    if (error.type === 'StripeCardError') {
+      res.status(400).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+});
+
+
+
+
+
+
 export {
   createNewBooking,
   getBookingById,
   getAllBookings,
   updateBookingById,
   deleteBookingById,
+  createCheckoutSession,
 };
