@@ -36,20 +36,6 @@ const bookingSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    // paymentInfo: {
-    //   id: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   status: {
-    //     type: String,
-    //     required: true,
-    //   },
-    // },
-    // paidAt: {
-    //   type: Date,
-    //   required: true,
-    // },
   },
   {
     timestamps: true,

@@ -199,12 +199,10 @@ const createCheckoutSession = asyncHandler(async (req, res) => {
       billing_address_collection: 'required',
     });
     // Debug logging to verify session creation
-    console.log("Stripe session created:", session);
-
+    //console.log("Stripe session created:", session);
     res.json({ id: session.id });
   } catch (error) {
     console.error("Error creating checkout session:", error);
-
     // Specific Stripe error handling
     if (error.type === 'StripeCardError') {
       res.status(400).json({ error: error.message });
